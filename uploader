@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+
+clear
+
+echo "Bem-vindo ao programa de upload rápido e seguro do lusantisuper!"
+echo "Utilizamos a api de alguns sites, para uploads rápidos e seguros"
+echo ""
+sleep 1
+
+echo "Por favor escolha o serviço que deseja usar:"
+echo "1 - File io"
+echo "2 - Anonfile"
+echo "3 - Vshare"
+read qualUrl
+
+if [ ${qualUrl} = "1" ]
+then
+	url="https://file.io"
+elif [ ${qualUrl} = "2" ]
+then
+	url="https://api.anonfile.com/upload"
+elif [ ${qualUrl} = "3" ]
+then
+	url="https://api.vshare.is/upload"
+else
+	echo "Opção inválida"
+fi
+
+if [ $# == 0 ]
+then
+  echo "Por favor digite o nome do arquivo que deseja upar: "
+  read arquivo
+else
+  arquivo=$1
+fi
+
+echo ""
+echo "Upando..."
+sleep 1
+
+regexSuccess="\"success\":\"?([^\'\",]+)\"?,"
+regexLink="\"link\":\"?([^\'\",]+)\"?,"
+regexExpiry="\"expiry\":\"?([^\'\"]+)\"?,?"
+
+resultado=$(curl -F "file=@${arquivo}" ${url})
+
+#limpandoResultado=$(echo $resultado | grep -Po ${regexSuccess})
+
+echo ""
+echo ""
+#echo $limpandoResultado
+echo $resultado
